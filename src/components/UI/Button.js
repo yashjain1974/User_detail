@@ -2,13 +2,13 @@ import React from "react";
 import styless from "./Button.module.css";
 const Button = (props) => {
   return (
-    <div
+    <button
       className={styless.button}
       type={props.type || "button"}
       onClick={props.onClick}
     >
       {props.children}
-    </div>
+    </button>
   );
 };
 export default Button;
