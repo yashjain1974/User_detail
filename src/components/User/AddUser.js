@@ -2,17 +2,31 @@ import React, { useState } from "react";
 import Card from "../UI/Card";
 import styles from "./AddUser.module.css";
 import Button from "../UI/Button";
+import ErrorJSModal from "../UI/ErrorJSModal";
 
 const AddUser = (props) => {
   const [userName, setuserName] = useState("");
   const [userAge, setuserAge] = useState("");
+  const[errorMessage,setErrorMessage]=useState("");
 
   const addUserHandler = (event) => {
     event.preventDefault();
     if(userName.trim().length===0 || userAge.trim().length===0){
+        setErrorMessage(
+            {
+                title:"Empty Values",
+                message:"Blank values is not allowed "
+            }
+        )
         return;
     }
     if(+userAge<1){
+        setErrorMessage(
+            {
+                title:"Age Exception",
+                message:"Age must be greater than 0"
+            }
+        )
         return;
     }
    
@@ -27,7 +41,15 @@ const AddUser = (props) => {
     setuserAge(event.target.value);
   };
 
+  const onclickError=props=>{
+    setErrorMessage(null);
+  }
+   
+  
+
   return (
+    <div>
+      { errorMessage && <ErrorJSModal title={errorMessage.title} message={errorMessage.message} onConfirm={onclickError}></ErrorJSModal>}
     <Card className={styles.input}>
       <form onSubmit={addUserHandler}>
         <label htmlFor="name"> Name :</label>
@@ -50,6 +72,7 @@ const AddUser = (props) => {
       </form>
      
     </Card>
+    </div>
    
   );
 };
