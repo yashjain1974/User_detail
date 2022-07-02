@@ -37,7 +37,7 @@ const AddUser = (props) => {
     setuserAge(event.target.value);
   };
 
-  const onclickError = (props) => {
+  const onclickError = () => {
     setErrorMessage(null);
   };
 
