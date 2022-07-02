@@ -1,24 +1,29 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import Card from "../UI/Card";
 import styles from "./AddUser.module.css";
 import Button from "../UI/Button";
 import ErrorJSModal from "../UI/ErrorJSModal";
 
 const AddUser = (props) => {
-  const [userName, setuserName] = useState("");
-  const [userAge, setuserAge] = useState("");
+  const Enteredname=useRef();
+  const EnteredAge=useRef();
+
+  
   const [errorMessage, setErrorMessage] = useState("");
 
   const addUserHandler = (event) => {
+    const EnteredUserName=Enteredname.current.value;
+    const EnteredUserAge=EnteredAge.current.value;
+    
     event.preventDefault();
-    if (userName.trim().length === 0 || userAge.trim().length === 0) {
+    if (EnteredUserName.trim().length === 0 || EnteredUserAge.trim().length === 0) {
       setErrorMessage({
         title: "Empty Values",
         message: "Blank values is not allowed ",
       });
       return;
     }
-    if (+userAge < 1) {
+    if (+EnteredUserAge < 1) {
       setErrorMessage({
         title: "Age Exception",
         message: "Age must be greater than 0",
@@ -26,17 +31,12 @@ const AddUser = (props) => {
       return;
     }
 
-    props.onAddUser(userName, userAge);
-    setuserName("");
-    setuserAge("");
+    props.onAddUser(EnteredUserName, EnteredUserAge);
+    Enteredname.current.value="";
+    EnteredAge.current.value="";
+   
   };
-  const setUsernameValue = (event) => {
-    setuserName(event.target.value);
-  };
-  const setUserageValue = (event) => {
-    setuserAge(event.target.value);
-  };
-
+  
   const onclickError = () => {
     setErrorMessage(null);
   };
@@ -56,16 +56,16 @@ const AddUser = (props) => {
           <input
             type="text"
             id="name"
-            value={userName}
-            onChange={setUsernameValue}
+           
+            ref={Enteredname}
           ></input>
 
           <label htmlFor="age"> Age(Year) :</label>
           <input
             type="number"
             id="age"
-            value={userAge}
-            onChange={setUserageValue}
+          
+            ref={EnteredAge}
           ></input>
 
           <Button type="submit">Add User</Button>
